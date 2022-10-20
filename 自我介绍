@@ -1,0 +1,45 @@
+class Personnel{
+    private String name;
+    private String sex;
+    private int age;
+    public Personnel(){
+        System.out.println("请您进行自我介绍：");
+
+    }
+        public void setName (String name){
+            this. name=name;
+        }
+        public String getName(){
+            return name;
+        }
+
+        public void setSex(String sex){
+            this.sex=sex;
+        }
+        public String getSex(){
+            return sex;
+        }
+        public void setAge (int age){
+         this.age=age;
+        }
+        public int getAge(){
+            return age;
+        }
+
+public void introduce()
+{   System.out.println("姓名："+name);
+    System.out.println("性别:"+sex);
+    System.out.println("年龄:"+age);
+}
+    }
+
+public class Resume {
+    public static void main (String[] args) {
+
+Personnel stu = new Personnel();
+stu.setName("高杰");
+stu.setSex("男");
+stu.setAge(20);
+    stu.introduce();
+    }
+}
