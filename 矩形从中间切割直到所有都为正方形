@@ -1,0 +1,23 @@
+import java.util.Scanner;
+public class Curb {
+    public static void main(String[] args) {
+        int i,t;
+        Scanner in=new Scanner(System.in);
+        System.out.println("请输入该矩形的长和宽：");
+        int a=in.nextInt();
+        int b=in.nextInt();
+        int chang=a;
+        int kuan=b;
+for(i=1;chang!=kuan;i++){
+    chang=chang-kuan;
+    if(chang<kuan){
+        t=chang;
+        chang=kuan;
+        kuan=t;
+    }
+}
+        System.out.println(i+"个正方形\n");
+    }
+}
+//运行结果如下：
+![image](https://user-images.githubusercontent.com/115549268/196994930-df40b9d3-9e59-43b3-9a99-3c42ebe896f4.png)
