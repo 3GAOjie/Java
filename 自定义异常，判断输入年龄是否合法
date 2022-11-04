@@ -1,0 +1,42 @@
+import java.util.Scanner;
+
+class MyException extends Exception{
+    //默认构造器
+    public MyException(){
+
+    }
+    public MyException(String msg){
+        super(msg);
+    }
+}
+class Person{
+    private String name;
+    private int age;
+    public void setName(String name){
+        this.name=name;
+    }
+    public void setAge(int age) throws MyException { //声明异常
+        if (age < 0) {
+            throw new MyException("人的年龄为负数，不符合要求");
+        }
+        this.age = age;
+    }
+    public String toString(){
+        return "姓名： "+name+"    年龄："+age;
+    }
+}
+public class Resume2 {
+    public static void main(String[] args) throws MyException {
+        Scanner in =new Scanner(System.in);
+        Person person = new Person();
+        System.out.println("请输入姓名：   年龄:  ");
+try {
+    person.setName(in.next());
+    person.setAge(in.nextInt());
+}catch (MyException e){
+  e.printStackTrace();
+}
+    System.out.println("请输出个人信息：");
+    System.out.println(person);
+    }
+}
