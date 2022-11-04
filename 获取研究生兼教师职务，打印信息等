@@ -1,0 +1,88 @@
+import java.util.Scanner;
+//定义接口
+interface StudentInterface{ //学生信息管理接口
+    void setFee(float fee);
+    float getFee();
+}
+interface TeacherInterface{ //教师信息管理
+    void setPay(float fee);
+    float getPay(); //获取工资
+}
+class Student implements StudentInterface { //学生类实现学生接口
+    private float fee; //学费
+    private String name; //姓名
+    private int age; //年龄
+    private String sex;//性别
+
+    public void setName(String name) { //设置姓名
+        this.name = name;
+    }
+    public String getName() {
+        return name;
+    }
+    public int getAge() {
+        return age;
+    }
+    public void setAge(int age) {
+        this.age = age;
+    }
+    public String getSex() {
+        return sex;
+    }
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+    public void setFee(float fee) { //设置学费
+        this.fee = fee;
+    }
+    public float getFee() { //获取学费
+        return fee;
+    }
+    @Override
+    public String toString() {  //重写toString方法
+        return ("姓名:    "+ this.name+"      年龄:   "+this.age+"      性别      "+this.sex+"        学费      "+this.fee      );
+    }
+}
+class Graduate extends Student implements TeacherInterface {
+    private float pay; //定义月工资
+    @Override
+    public void setPay(float pay) {
+        this.pay = pay;
+    }
+    @Override
+    public float getPay() {
+        return pay;
+    }
+public void economics (float income,float fee) {
+    float yearIncome; //年收入
+    float yearFee;//年学费
+    yearIncome = income * 12;
+    yearFee = fee * 2;
+    if (yearIncome - yearFee >= 2000) {
+        System.out.println("该学生的年收入为    " + yearIncome + "       和学费分别是：    " + yearFee);
+    }else{
+        System.out.println("provide a loan(需要贷款)");
+    }
+}
+    @Override
+    public String toString() {
+        return "       工资:  "+getPay()+"";
+    }
+}
+public class Resume1 {
+    public static void main(String[] args) {
+        Scanner in =new Scanner(System.in);//从键盘输入数据
+        Graduate graduate =new Graduate();
+        Student student =new Student();
+         student.setName("zhangsan");
+         student.setAge(22);
+         student.setSex("男");
+        System.out.println("请输入该研究生就职工资：");
+        graduate.setPay(in.nextFloat()); // 设置工资
+        System.out.print("请输入该学生每学期学费：");
+        student.setFee(in.nextFloat()); //设置学费
+        System.out.println("打印该研究生兼教师职位信息");
+        System.out.println(student.toString()+graduate.toString());
+        graduate.economics(graduate.getPay(), student.getFee());
+    }
+}
