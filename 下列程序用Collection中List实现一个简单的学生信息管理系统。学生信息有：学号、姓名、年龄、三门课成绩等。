@@ -1,0 +1,299 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+//三门课成绩类
+class Score{
+    double Chinese;
+    double English;
+    double Math;
+}
+//学生信息类
+class Student{
+    private String sID;
+    private String sName;
+    private String sAge;
+    private Score sMark=new Score();//语句作用是创建Score对象，并将该对象赋给私有属性sMark
+    public Student(){
+    }
+    public Student(String sID,String sName,String sAge,double Chinese,double English,double Math){
+        this.sID=sID;
+        this.sName=sName;
+        this.sAge=sAge;
+        this.sMark.Chinese=Chinese;
+        this.sMark.English=English;
+        this.sMark.Math=Math;
+    }
+    // 上述方法是什么方法？作用是？ 构造器  作用：① 创建对象，② 初始化成员变量。
+    public String getID(){
+        return sID;
+    }
+    public String getName() {
+        return sName;
+    }
+    public String getAge() {
+        return sAge;
+    }
+    public double getChinese(){
+        return sMark.Chinese;
+    }
+    public double getEnglish() {
+        return sMark.English;
+    }
+    public double getMath(){
+        return sMark.Math;
+    }
+    public void setID(String sID){
+        this.sID=sID;
+    }
+    public void setName(String sName) {
+        this.sName=sName;
+    }
+    public void setAge(String sAge) {
+        this.sAge=sAge;
+    }
+    public void setChinese(double Chinese){
+        this.sMark.Chinese=Chinese;
+    }
+    public void setEnglish(double English) {
+        this.sMark.English=English;
+    }
+    public void setMath(double Math){
+        this.sMark.Math=Math;
+    }
+    public String toString(){
+        return "学号："+sID+" 姓名："+sName+" 年龄："+sAge+" 语文成绩："+sMark.Chinese
+                +" 英语成绩："+sMark.English+" 数学成绩："+sMark.Math;
+    }
+// toString()方法是自定义的还是重写的？ 重写的，重写了超类Object的toString()方法
+}
+
+///操作管理类
+public class StudentSystem{
+    //定义数组列表list,元素类型为student
+    List<Student>list =new ArrayList<>();
+    private Scanner scanner = new Scanner(System.in);
+    public void PrintMeum(){
+        System.out.println("****************************************");
+        System.out.println("*                                      *");
+        System.out.println("*          学生 信息 管理 系统            *");
+        System.out.println("*                                      *");
+        System.out.println("****************************************");
+        System.out.println("---------------------------------------------");
+        System.out.println("|           1. 增       加                   |");
+        System.out.println("|           2. 删       除                   |");
+        System.out.println("|           3. 查       找                   |");
+        System.out.println("|           4. 修       改                   |");
+        System.out.println("|           5. 显       示                   |");
+        System.out.println("|           6. 退       出                   |");
+        System.out.println("|                                           |");
+        System.out.println("---------------------------------------------");
+        System.out.print("请选择：");
+        String num = scanner.next();
+        if(num.equals("1")){
+            add();
+        }else if(num.equals("2")){
+            delete();
+        }else if(num.equals("3")){
+            select();
+        }else if(num.equals("4")){
+            update();
+        }else if(num.equals("5")){
+            display();
+        }else if(num.equals("6")){
+            exit();
+        }else {
+            System.out.print("请输入正确的菜单项：");
+            PrintMeum();
+        }
+// 从上述语句可以看出从键盘输入的数字是数值还是字符串？ 字符串
+    }
+    private void add(){
+        String sID,sName,sAge;
+        double Chinese,English,Math;
+        boolean flag=true;
+        System.out.println("请输入要增加的学生信息");
+        System.out.print("学号：");
+        sID=scanner.next();
+        System.out.print("姓名：");
+        sName=scanner.next();
+        System.out.print("年龄：");
+        sAge=scanner.next();
+        System.out.print("语文成绩：");
+        Chinese=Double.valueOf(scanner.next());//作用是？ 返回保存指定的String类型的值的Double对象
+        System.out.print("英语成绩：");
+        English=Double.valueOf(scanner.next());
+        System.out.print("数学成绩：");
+        Math=Double.valueOf(scanner.next());
+        Student student=new Student(sID,sName,sAge,Chinese,English,Math);
+        if(list.isEmpty()){      //list.isEmpty()的作用是?  判断list容器元素是否为空，若为空则返回"是"
+            list.add(student);  //向列表添加学生
+            System.out.println("增加成功！");
+            PrintMeum();
+        }else{
+            for (Student st :list)//foreach遍历列表，临时变量为st
+                if(st.getID().equals(sID))
+                    flag=false;
+            if(flag){
+                list.add(student);
+                System.out.println("增加成功！");
+                PrintMeum();
+            }else{
+                System.out.println("该学生已经存在，增加失败！");
+                PrintMeum();
+            }
+        }
+
+    }
+    private void delete() {
+        boolean flag=true;
+        System.out.print("请输入要删除的学生的学号：");
+        String sID=scanner.next();
+        if(list.isEmpty()){
+            System.out.println("学生信息为空，删除失败！");
+            PrintMeum();
+        }else{
+            for (int i=0;i<list.size();i++)
+                if(list.get(i).getID().equals(sID)){
+                    //解释list.get(i).getID().equals(sID)
+                    /* 由存放student类型的List容器的get方法来获取索引为i的student元素,然后再调用Student对象中的方法getID()
+                    然后和sID的内容进行比较，若内容相等则返回Ture; */
+                    flag=false;
+                    list.remove(i);
+                }
+            if(!flag){
+                System.out.println("删除成功！");
+                PrintMeum();
+            }else{
+                System.out.println("不存在此学生，删除失败！");
+                PrintMeum();
+            }
+        }
+    }
+    private void select() {
+        System.out.println("***************************************");
+        System.out.println("*                                     *");
+        System.out.println("*          学生 信息 查询 系统           *");
+        System.out.println("*                                      *");
+        System.out.println("***************************************");
+        System.out.println("*                                     *");
+        System.out.println("*          1. 按姓名查询                *");
+        System.out.println("*          2. 按学号查询                *");
+        System.out.println("*          3. 返     回                *");
+        System.out.println("*                                     *");
+        System.out.println("***************************************");
+        System.out.print("请选择：");
+        String num = scanner.next();
+        if(num.equals("1")){
+            selectbyName();
+        }else if(num.equals("2")){
+            selectbyID();
+        }else if(num.equals("3")){
+            PrintMeum();
+        }else {
+            System.out.print("请输入正确的菜单项：");
+            select();
+        }
+    }
+    private void selectbyName(){
+        System.out.print("请输入要查找的学生姓名：");
+        String sName=scanner.next();
+        if(list.isEmpty()){
+            System.out.println("学生信息为空，查询失败！");
+            PrintMeum();
+        }else{
+            boolean flag=true;
+            for (int i=0;i<list.size();i++)
+                if(list.get(i).getName().equals(sName)){
+                    System.out.println(list.get(i).toString());
+                    flag=false;
+                }
+            if(!flag)
+                select();
+            else{
+                System.out.println("按姓名查询失败！");
+                select();
+            }
+        }
+    }
+    private void selectbyID(){
+        System.out.print("请输入要查找的学生学号：");
+        String sID=scanner.next();
+        if(list.isEmpty()){
+            System.out.println("学生信息为空，查询失败！");
+            PrintMeum();
+        }else{
+            boolean flag=true;
+            for (int i=0;i<list.size();i++)
+                if(list.get(i).getID().equals(sID)){
+                    System.out.println(list.get(i).toString());
+                    flag=false;
+                }
+            if(!flag)
+                select();
+            else{
+                System.out.println("按学号查询失败！");
+                select();
+            }
+        }
+    }
+    private void update(){
+        System.out.print("请输入要修改的学生学号：");
+        String sID=scanner.next();
+        if(list.isEmpty()){
+            System.out.println("学生信息为空，修改失败！");
+            PrintMeum();
+        }else{
+            String sName,sAge;
+            double Chinese,English,Math;
+            boolean flag=true;
+            for (int i=0;i<list.size();i++)
+                if(list.get(i).getID().equals(sID)){
+                    System.out.print("姓名：");
+                    sName=scanner.next();
+                    System.out.print("年龄：");
+                    sAge=scanner.next();
+                    System.out.print("语文成绩：");
+                    Chinese=scanner.nextDouble();
+                    System.out.print("英语成绩：");
+                    English=scanner.nextDouble();
+                    System.out.print("数学成绩：");
+                    Math=scanner.nextDouble();
+                    list.get(i).setName(sName);
+                    list.get(i).setAge(sAge);
+                    list.get(i).setChinese(Chinese);
+                    list.get(i).setEnglish(English);
+                    list.get(i).setMath(Math);
+                    System.out.println(list.get(i).toString());
+                    flag=false;
+                }
+            if(!flag){
+                System.out.println("修改成功！");
+                PrintMeum();
+            }
+            else{
+                System.out.println("该学生不存在，修改失败！");
+                PrintMeum();
+            }
+        }
+    }
+    private void display(){
+        if(list.isEmpty()){
+            System.out.println("学生信息为空，显示失败！");
+        }
+        else{
+            for (Student st: list)
+                System.out.println(st.toString());
+            System.out.println("以上为所有学生信息，显示成功！");
+            PrintMeum();
+        }
+    }
+    private int exit() {
+        return -1;
+    }
+
+    public static void main(String args[]){
+        StudentSystem SS=new StudentSystem();
+        SS.PrintMeum();
+    }
+}
