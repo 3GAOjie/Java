@@ -1,0 +1,25 @@
+public class untitled6 {
+    public static void main(String[] args){
+        int count = 0;//统计次数
+        String string ="this-is-a-test-of-java"; //串
+        String substring ="is"; //字串
+        int start = 0;
+        int index = substring.length();
+        while (true) {
+            if (string.indexOf(substring, start) != -1) {
+                count++;
+                start = string.indexOf(substring, start);
+                start +=index;
+            } else {
+                break;
+            }
+        }
+        String  arr []=string.split("-");
+        System.out.println(substring + "共出现了:" + count + "次");
+        System.out.println("分割后的字符串为：");
+        for (String item:
+                arr ) {
+            System.out.print(item+"\t");
+        }
+    }
+}
