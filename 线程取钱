@@ -1,0 +1,123 @@
+# Java
+// 银行账户类
+ class Account {
+    // 账号
+    private long no;
+
+    // 姓名
+    private String name;
+
+    // 余额
+    private double money;
+
+    public long getNo() {
+        return no;
+    }
+
+    public void setNo(long no) {
+        this.no = no;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public double getMoney() {
+        return money;
+    }
+
+    public void setMoney(double money) {
+        this.money = money;
+    }
+
+    public Account() {
+
+    }
+
+    public Account(long no, String name, double money) {
+        this.no = no;
+        this.name = name;
+        this.money = money;
+    }
+
+    // 取钱
+    /*
+        在实例方法上使用synchronized，锁的一定是this对象。
+        这种方式不灵活，另外表示整个方法都需要同步，可能会无故扩大同步的范围。
+        导致程序的效率降低。所以这种方式不常用。
+
+        synchronized使用在实例方法上有什么优点？
+            就是代码比较少，写一个synchronized关键字就行。
+
+        如果共享的对象就是this，并且需要同步的代码是整个方法体，建议在实例方法上
+        添加synchronized关键字修饰，因为需要同步的确实是整个方法体。
+     */
+    // 也可以在实例方法上，加synchronized，这样就扩大了安全的范围，同样效率就变低了
+    public synchronized boolean withdraw(int m) {
+        // 以下代码是需要线程排队的
+        //synchronized (this) {  // 括号里的参数传一个对象，只要对象必须是线程所共享的就行，也可以不是this
+
+        if (m <= 0 || m > this.money)  return false;
+
+        // 模拟网络延迟
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        this.money = this.money - m;
+        return true;
+        //}
+    }
+}
+// 线程运行类
+class AccountThread implements Runnable {
+    // 线程共享一个账户
+    private Account account;
+
+    // 取钱的数目
+    private int money;
+
+    public AccountThread(Account account, int money) {
+        this.account = account;
+        this.money = money;
+    }
+
+    @Override
+    public void run() {
+        // 开始取钱
+        if (account.withdraw(money)) {
+            System.out.println(Thread.currentThread().getName() + "取钱" + money + "元成功，剩余" + account.getMoney() + "元。");
+        } else {
+            System.out.println(Thread.currentThread().getName() + "取钱失败");
+        }
+
+    }
+}
+public class Test01 {
+    public static void main(String[] args) {
+        // 创建银行账户类
+        Account account = new Account(1001, "张三", 1000);
+
+        // 创建两个线程，共享一个账户
+        AccountThread at1 = new AccountThread(account, 500);
+        AccountThread at2 = new AccountThread(account, 500);
+
+        Thread t1 = new Thread(at1);
+        Thread t2 = new Thread(at2);
+
+        // 设置name
+        t1.setName("t1");
+        t2.setName("t2");
+
+        // 启动线程，开始取钱
+        t1.start();
+        t2.start();
+    }
+
+}
