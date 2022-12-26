@@ -1,0 +1,56 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+public class MyJFrame {
+    public static void main(String[] args) {
+        JFrame jFrame = new JFrame("猜数字游戏");
+        JPanel jPanel = new JPanel();
+        //将jPanel设置为网格布局
+        jPanel.setLayout(new GridLayout());
+        //新建3个按钮
+        JButton jButton1 = new JButton("猜");
+        JButton jButton2 = new JButton("重新来过");
+        JButton jButton3 = new JButton("退出游戏");
+        ActionListener actionListener1 = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("向控制台输出鼠标被敲击的事件");
+                System.out.println("您点击了"+e.getActionCommand());
+            }
+        };
+        ActionListener actionListener2 = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("向控制台输出鼠标被敲击的事件");
+                System.out.println("您点击了"+e.getActionCommand());
+            }
+        };
+        ActionListener actionListener3 = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("向控制台输出鼠标被敲击的事件");
+                System.out.println("您点击了"+e.getActionCommand());
+            }
+        };
+        jButton1.addActionListener(actionListener1);
+        jButton2.addActionListener(actionListener2);
+        jButton3.addActionListener(actionListener3);
+        JTextField jTextField = new JTextField();
+        jTextField.setBackground(Color.cyan);
+        JTextArea jTextArea = new JTextArea("请输入一个1000以内的整数");
+        jTextArea.setBackground(Color.LIGHT_GRAY);
+        //将三个按钮添加到Panel中
+        jPanel.setBackground(Color.MAGENTA);
+        jPanel.add(jButton1);
+        jPanel.add(jButton2);
+        jPanel.add(jButton3);
+        jFrame.add(jTextField,BorderLayout.NORTH);
+        jFrame.add(jTextArea,BorderLayout.CENTER);
+        jFrame.add(jPanel,BorderLayout.SOUTH);
+        jFrame.setBounds(250,300,500,200);
+        jFrame.setVisible(true);
+    }
+}
