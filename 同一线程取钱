@@ -1,0 +1,61 @@
+# Java
+//定义账户类
+public class Account {
+    private String name;
+    private double money;
+    private double drawmoney;
+    public void setName(String name){
+        this.name = name;
+    }
+    public String getName(){
+        return this.name;
+    }
+    public void setMoney(double money){
+        this.money = money;
+    }
+    public double getMoney(){
+        return this.money;
+    }
+    public void setDrawmoney(double drawmoney){
+        this.drawmoney = drawmoney;
+    }
+    public double getDrawmoney(){
+        return  this.drawmoney;
+    }
+    public Account(String name,double money,double drawmoney) {
+    this.name = name;
+    this.money = money;
+    this.drawmoney = drawmoney;
+    }
+   public synchronized boolean xiancheng() {
+        if (getMoney() - getDrawmoney() >= 0 ) {
+           this.money = money - drawmoney;
+            return true;
+        } else
+            return false;
+    }
+}
+//定义线程类
+public class AccountThread extends Account implements Runnable {
+    public AccountThread(String name, double money, double drawmoney) {
+        super(name, money, drawmoney);
+    }
+    @Override
+    public void run() {
+            if (xiancheng()) {
+                System.out.println(Thread.currentThread().getName()+"正在取钱" + getDrawmoney() + "剩余余额:" + getMoney());
+            } else {
+                System.out.println("余额不足，取钱失败！");
+            }
+    }
+}
+//定义测试类
+public class Resume {
+    public static void main(String[] args) {
+        AccountThread accountThread = new AccountThread("高杰",10000,5000);
+Thread thread1 = new Thread(accountThread,accountThread.getName()+"1");
+Thread thread2 = new Thread(accountThread,accountThread.getName()+"2");
+        thread1.start();
+        thread2.start();
+    }
+}
